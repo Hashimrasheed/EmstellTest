@@ -31,27 +31,27 @@ function restaurants() {
             try {
                 const file = req.body.profile
                 let checkStudent = await CheckStudentExist(req.body.name)
-                if(checkStudent.length === 0) {
-                    let extName ;
-                    if(file.match(/^data:image\/png;base64,/)){
+                if (checkStudent.length === 0) {
+                    let extName;
+                    if (file.match(/^data:image\/png;base64,/)) {
                         const file_data = file.replace(/^data:image\/png;base64,/, "");
                         extName = 'png'
                         fs.writeFile(`./public/images/${req.body.name}.png`, file_data, 'base64', (err) => {
-                            if(err) throw err
+                            if (err) throw err
                         })
                     }
-                    if(file.match(/^data:image\/jpg;base64,/)){
+                    if (file.match(/^data:image\/jpg;base64,/)) {
                         const file_data = file.replace(/^data:image\/jpg;base64,/, "");
                         extName = 'jpg'
                         fs.writeFile(`./public/images/${req.body.name}.jpg`, file_data, 'base64', (err) => {
-                            if(err) throw err
+                            if (err) throw err
                         })
                     }
-                    if(file.match(/^data:image\/jpeg;base64,/)){
+                    if (file.match(/^data:image\/jpeg;base64,/)) {
                         const file_data = file.replace(/^data:image\/jpeg;base64,/, "");
                         extName = 'jpeg'
                         fs.writeFile(`./public/images/${req.body.name}.jpeg`, file_data, 'base64', (err) => {
-                            if(err) throw err
+                            if (err) throw err
                         })
                     }
                     let data = {
@@ -60,7 +60,7 @@ function restaurants() {
                         department: req.body.department,
                         dob: req.body.dob,
                         mark: req.body.mark,
-                        extName : extName
+                        extName: extName
                     }
                     await addStudent(data)
                     res.redirect('/');
@@ -81,33 +81,42 @@ function restaurants() {
                 res.redirect('/')
             }
         },
-        
+
         // edit student
         async editStudent(req, res) {
             let id = req.params.id
             try {
                 let student = await editStudent(id)
-                res.render('student/editStudent', {student})
+                res.render('student/editStudent', { student })
             } catch (e) {
                 res.redirect('/')
             }
         },
-        
+
         // update restaurant address
         async postEditStudent(req, res) {
             let id = req.params.id
             try {
                 const file = req.body.profile
-                if(file.match(/^data:image\/png;base64,/)){
+                if (file.match(/^data:image\/png;base64,/)) {
                     const file_data = file.replace(/^data:image\/png;base64,/, "");
+                    extName = 'png'
                     fs.writeFile(`./public/images/${req.body.name}.png`, file_data, 'base64', (err) => {
-                        if(err) throw err
+                        if (err) throw err
                     })
                 }
-                if(file.match(/^data:image\/jpg;base64,/)){
+                if (file.match(/^data:image\/jpg;base64,/)) {
                     const file_data = file.replace(/^data:image\/jpg;base64,/, "");
-                    fs.writeFile(`./public/images/${req.body.name}.png`, file_data, 'base64', (err) => {
-                        if(err) throw err
+                    extName = 'jpg'
+                    fs.writeFile(`./public/images/${req.body.name}.jpg`, file_data, 'base64', (err) => {
+                        if (err) throw err
+                    })
+                }
+                if (file.match(/^data:image\/jpeg;base64,/)) {
+                    const file_data = file.replace(/^data:image\/jpeg;base64,/, "");
+                    extName = 'jpeg'
+                    fs.writeFile(`./public/images/${req.body.name}.jpeg`, file_data, 'base64', (err) => {
+                        if (err) throw err
                     })
                 }
                 let data = {
@@ -116,6 +125,7 @@ function restaurants() {
                     department: req.body.department,
                     dob: req.body.dob,
                     mark: req.body.mark,
+                    extName: extName
                 }
                 await postEditStudent(id, data)
                 res.redirect('/')
