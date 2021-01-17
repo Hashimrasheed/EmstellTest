@@ -40,7 +40,7 @@ function restaurants() {
                     }
                     if(file.match(/^data:image\/jpg;base64,/)){
                         const file_data = file.replace(/^data:image\/jpg;base64,/, "");
-                        fs.writeFile(`./public/images/${req.body.name}.png`, file_data, 'base64', (err) => {
+                        fs.writeFile(`./public/images/${req.body.name}.jpg`, file_data, 'base64', (err) => {
                             if(err) throw err
                         })
                     }
