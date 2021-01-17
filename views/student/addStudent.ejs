@@ -1,0 +1,86 @@
+<%- include('../partials/header.ejs') %>
+
+    <div class="container">
+
+        <section class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Add Student</h3>
+            </div>
+            <div class="panel-body">
+
+                <form action="/addstudent" method="POST" class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Full Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="name" id="name"
+                                placeholder="Enter student name" required>
+                        </div>
+                    </div> <!-- form-group // -->
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Student Age</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="age" id="age" placeholder="Enter student age"
+                                required>
+                        </div>
+                    </div> <!-- form-group // -->
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Student Department</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="department" id="department"
+                                placeholder="Enter student department" required>
+                        </div>
+                    </div> <!-- form-group // -->
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Student Date of birth</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" name="dob" id="dob"
+                                placeholder="Enter student Date of birth" required>
+                        </div>
+                    </div> <!-- form-group // -->
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Student MArk</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="mark" id="mark"
+                                placeholder="Enter student Mark" required>
+                        </div>
+                    </div> <!-- form-group // -->
+                    <input type="hidden" name="profile" id="output" required>
+
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Profile Pic</label>
+                        <div class="col-sm-3">
+                            <label class="control-label small" for="file_img">Choose file</label> <input type="file"
+                                id="profilePic" onchange="fileHandler()" name="profilePic" required>
+                        </div>
+                    </div> <!-- form-group // -->
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div> <!-- form-group // -->
+                </form>
+
+            </div><!-- panel-body // -->
+        </section><!-- panel// -->
+
+
+    </div> <!-- container// -->
+
+    <script>
+
+        const toBase64 = (file) => {
+            const reader = new FileReader()
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                document.getElementById("output").value = reader.result;
+            }
+            reader.onerror = (error) => console.log(error)
+        }
+        const fileHandler = () => {
+            const file = document.querySelector("#profilePic").files[0]
+            const file_data = toBase64(file)
+
+        }
+    </script>

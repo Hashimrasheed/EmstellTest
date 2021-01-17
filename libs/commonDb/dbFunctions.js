@@ -1,82 +1,61 @@
-const { set } = require('mongoose')
-const Restaurant = require('../../app/models/restaurant')
+const db = require('../../app/config/connection')
+const collection = require('../../app/config/collections')
+const ObjectId = require('mongodb').ObjectID
 
-//Get Restaurant
-function getRestaurants(limit) {
-    return Restaurant.aggregate([
+
+
+// school login 
+function loginDepartment(data) {
+    if(data.username === 'Emstell' && data.password === 'Emstell') {
+        return true
+    } else return false
+}
+
+// get all students
+function getAllStudents() {
+    return db.get().collection(collection.STUDENTS).aggregate([]).toArray()
+}
+
+// add student
+function addStudent(data) {
+    return db.get().collection(collection.STUDENTS).insertOne(data)
+}
+
+// check a student is exist
+function CheckStudentExist(name) {
+    return db.get().collection(collection.STUDENTS).aggregate([
         {
-            $limit: limit
+            $match: {name: name}
         }
-    ])
+    ]).toArray()
 }
 
-// Get a restaurant details
-function getARestaurant(id) {
-    return Restaurant.findOne({_id: id})
+// Delete a student
+function deleteStudent(id) {
+    return db.get().collection(collection.STUDENTS).deleteOne({_id: ObjectId(id)})
 }
 
-// check restaurant exist
-function checkRestaurantExist(name) {
-    return Restaurant.findOne({name}) || null
-}
-
-// Create a restaurant
-function createRestaurant(restaurant) {
-    let res = {
-        name: restaurant.Name,
-        location: restaurant.Location,
-        cuisine: restaurant.cuisine,
-        grade: restaurant.grade,
-    }
-    return Restaurant.insertMany(res)
-}
-
-// update restaurant address
-function updateRestaurant(id, address) {
-    return Restaurant.updateOne({_id: id}, {location: address})
-}
-
-//delete a restaurant
-function deleteRestaurant(id) {
-    return Restaurant.deleteOne({_id: id})
-}
-
-//get Restaurant grade
-function getrestaurantgrade(id) {
-    return Restaurant.findById(id)
-}
-
-//get All unique restaurant cuisines
-function getrestaurantCuisines() {
-    return Restaurant.aggregate([
+// Edit a restaurant
+function editStudent(id) {
+    return db.get().collection(collection.STUDENTS).aggregate([
         {
-            $group: {_id: "$cuisine"}
+            $match: {_id: ObjectId(id)}
         }
-    ])
+    ]).toArray()
 }
 
-// Get all restaurants under a cuisine
-function restaurantsInCuisines(cuisine) {
-    return Restaurant.aggregate([
-        {
-            $match: {cuisine: cuisine}
-        },
-        {
-            $project: {name: 1, _id: 0}
-        }
-    ])
+// Update Edited student details
+function postEditStudent(id, data) {
+    return db.get().collection(collection.STUDENTS).updateOne({_id: ObjectId(id)}, {$set: data})
 }
-
 
 //Export db functions
 module.exports = {
-    getRestaurants,
-    getARestaurant,
-    createRestaurant,
-    updateRestaurant,
-    checkRestaurantExist,
-    deleteRestaurant,
-    getrestaurantgrade,
-    getrestaurantCuisines,
-    restaurantsInCuisines
+    loginDepartment,
+    getAllStudents,
+    addStudent,
+    CheckStudentExist,
+    deleteStudent,
+    editStudent,
+    postEditStudent
 }

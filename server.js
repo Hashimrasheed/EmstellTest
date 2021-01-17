@@ -1,34 +1,30 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose')
+const db = require('./app/config/connection');
 const {USER_NAME, PASSWORD} = require('./config')
-const restaurants = require('./routes/restaurants')
+const allRoutes = require('./routes/allRoutes')
 const PORT = process.env.PORT || 3000
 
 const app = express();
 app.use(express.static('public'))
-//database connection
-const url = `mongodb+srv://${USER_NAME}:${PASSWORD}@cluster0.wysex.mongodb.net/HalfwayTest?retryWrites=true&w=majority`;
 
-mongoose.connect(url, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: true});
-const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log('Database connected...');
-}).catch(err => {
-    console.log('Connection failed...');
-})
+//database connection
+db.connect((err) => {
+    if (err) console.log("Connection failed" + err);
+    else console.log("Database connected");
+});
 
 //view engine setup
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs')
 
 //body parser middleware
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
+app.use(bodyParser.json({limit: '50mb'}));
 
 //Routing
-app.use('/', restaurants);
+app.use('/', allRoutes);
 
 //port listening
 app.listen(PORT, () => {

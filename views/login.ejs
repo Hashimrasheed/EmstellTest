@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
+
+<div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+	<div class="bg-white lg:w-4/12 md:w-1/2 sm:w-6/12 w-full mx-auto">
+		<div class="p-5 border-b-2">
+			<h4 class="font-semibold uppercase text-gray-700">Login</h4>
+		</div>
+		<form class="w-full" action="/login" method="POST">
+			<div class="p-5">
+				<div class="inline-grid w-full mb-3">
+					<label class="mb-2" for="">User name</label>
+					<input type="text" name="username"
+						class="focus:outline-none focus:ring-2 ring-purple-300 placeholder-gray-600 bg-gray-200 w-full p-2 rounded"
+						placeholder="User name">
+				</div>
+				<div class="inline-grid w-full mb-3">
+					<label class="mb-2" for="">Password</label>
+					<input type="password" name="password"
+						class="focus:outline-none focus:ring-2 ring-purple-300 placeholder-gray-600 bg-gray-200 w-full p-2 rounded"
+						placeholder="Password">
+				</div>
+			</div>
+			<div class="p-5 border-t-2 flex gap-1">
+				<div class="inline-grid w-1/2 mb-3">
+					<button type="submit"
+						class="bg-purple-600 focus:outline-none p-1.5 rounded font-semibold  hover:bg-purple-800 hover:text-white text-white">
+						Login
+					</button>
+				</div>
+				<div class="inline-grid w-1/2 mb-3">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
