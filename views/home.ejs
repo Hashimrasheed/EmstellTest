@@ -29,7 +29,7 @@
         </tr>
         <% student.map((student) => { %>
         <tr data-ng-repeat="customer in people | filter: table">
-            <td><img src="/images/<%= student.name %>.png" style="width: 5rem; height: 5rem;" alt=""></td>
+            <td><img src="/images/<%= student.name %>.<%= student.extName %>" style="width: 5rem; height: 5rem;" alt=""></td>
             <td><%= student.name %></td>
             <td><%= student.age %></td>
             <td><%= student.department %></td>

@@ -32,15 +32,25 @@ function restaurants() {
                 const file = req.body.profile
                 let checkStudent = await CheckStudentExist(req.body.name)
                 if(checkStudent.length === 0) {
+                    let extName ;
                     if(file.match(/^data:image\/png;base64,/)){
                         const file_data = file.replace(/^data:image\/png;base64,/, "");
+                        extName = 'png'
                         fs.writeFile(`./public/images/${req.body.name}.png`, file_data, 'base64', (err) => {
                             if(err) throw err
                         })
                     }
                     if(file.match(/^data:image\/jpg;base64,/)){
                         const file_data = file.replace(/^data:image\/jpg;base64,/, "");
+                        extName = 'jpg'
                         fs.writeFile(`./public/images/${req.body.name}.jpg`, file_data, 'base64', (err) => {
+                            if(err) throw err
+                        })
+                    }
+                    if(file.match(/^data:image\/jpeg;base64,/)){
+                        const file_data = file.replace(/^data:image\/jpeg;base64,/, "");
+                        extName = 'jpeg'
+                        fs.writeFile(`./public/images/${req.body.name}.jpeg`, file_data, 'base64', (err) => {
                             if(err) throw err
                         })
                     }
@@ -50,6 +60,7 @@ function restaurants() {
                         department: req.body.department,
                         dob: req.body.dob,
                         mark: req.body.mark,
+                        extName : extName
                     }
                     await addStudent(data)
                     res.redirect('/');

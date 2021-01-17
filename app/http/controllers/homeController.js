@@ -10,7 +10,6 @@ function homeController() {
         async home(req, res) {
             try {
                 let student = await getAllStudents();
-                console.log(student);
                 if(status == true) res.render('home', {student})
                 else res.redirect('/login')
             } catch (e) {
